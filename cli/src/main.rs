@@ -1,6 +1,7 @@
 mod command;
 
-use std::{io::{stdin, stdout, Write}, collections::HashMap, str::SplitAsciiWhitespace};
+use std::{io::{stdin, stdout, Write}, collections::HashMap, str::SplitAsciiWhitespace, fmt::format};
+use itertools::Itertools;
 
 use command::Command;
 
@@ -11,8 +12,8 @@ impl Command for Echo {
         "echo"
     }
 
-    fn on_run(args: SplitAsciiWhitespace) {
-        let out = args.map(|s| format!("{s} ")).collect::<String>();
+    fn on_run(args: &mut SplitAsciiWhitespace) {
+        let out = args.join(" ");
         println!("{out}");
     }
 }
@@ -24,13 +25,13 @@ impl Command for Test {
         "test"
     }
 
-    fn on_run(_args: SplitAsciiWhitespace) {
+    fn on_run(_args: &mut SplitAsciiWhitespace) {
         println!("test");
     }
 }
 
 fn main() {
-    let mut commands: HashMap<&str, Box<dyn Fn(SplitAsciiWhitespace)>> = HashMap::new();
+    let mut commands: HashMap<&str, Box<dyn Fn(&mut SplitAsciiWhitespace)>> = HashMap::new();
     commands.insert(Echo::get_name(), Box::new(Echo::on_run));
     commands.insert(Test::get_name(), Box::new(Test::on_run));
 
@@ -49,7 +50,7 @@ fn main() {
 
         if commands.contains_key(cmd) {
             let x = commands.get(cmd).unwrap();
-            (*x)(input);
+            (*x)(&mut input);
         } else {
             println!("Command not found")
         }
