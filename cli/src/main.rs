@@ -1,15 +1,17 @@
 mod commands;
+mod api;
 
 use std::{io::{stdin, stdout, Write}, collections::HashMap, str::SplitAsciiWhitespace};
 
-use commands::{echo::Echo, Command};
+use commands::{echo::Echo, Command, login::Login};
 
 fn main() {
     let mut commands: HashMap<&str, Box<dyn Fn(&mut SplitAsciiWhitespace)>> = HashMap::new();
     commands.insert(Echo::get_name(), Box::new(Echo::on_run));
+    commands.insert(Login::get_name(), Box::new(Login::on_run));
 
     loop {
-        print!("\n hito@passbay ~ ");
+        print!("\n ~ ");
 
         let mut input = String::new();
         stdout().flush().unwrap();

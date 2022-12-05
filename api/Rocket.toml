@@ -1,0 +1,5 @@
+[global]
+cli_colors = false
+
+[global.databases]
+passbay = { url = "postgres://passbay:123@localhost/passbay" }

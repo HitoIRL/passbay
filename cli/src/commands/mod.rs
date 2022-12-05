@@ -6,3 +6,4 @@ pub trait Command { // TODO: implement description
 }
 
 pub mod echo;
+pub mod login;
