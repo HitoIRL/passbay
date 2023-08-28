@@ -1,4 +1,3 @@
-mod api;
+fn main() {
 
-use std::{io::{stdin, stdout, Write}};
-
+}
